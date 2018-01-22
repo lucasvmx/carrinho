@@ -15,9 +15,12 @@ int pot_2 = A1;
 
 void setup()
 {
+	Serial.begin(250000);
 	moduloRF.begin();
+	moduloRF.enableDynamicPayloads();
+	moduloRF.setPALevel(RF24_PA_MIN); /* Deixa o amplificador do rf24 na potência mínima */
 	moduloRF.setChannel(100);
-	Serial.begin(9600);
+	moduloRF.openWritingPipe(pipe);
 }
 
 void loop()
@@ -28,6 +31,5 @@ void loop()
 	snprintf(texto, sizeof(char) * TAMBUF, "Canal 0: %d\t|\tCanal 1: %d", canal[0], canal[1]);
 	Serial.println(texto);
 
-	moduloRF.openWritingPipe(pipe);
 	moduloRF.write(&canal,sizeof(canal));
 }
