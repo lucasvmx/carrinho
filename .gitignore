@@ -1,3 +1,6 @@
 *.suo
 commit.txt
 .vs
+*.xml
+*.user
+Debug

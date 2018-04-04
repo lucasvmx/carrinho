@@ -7,7 +7,7 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 
-#define CE_PIN 9
+#define CE_PIN	9
 #define CSN_PIN 10
 
 #define TAMBUF	128
@@ -23,6 +23,7 @@ int in3 = 24;
 int in4 = 25;
 int enA = 2;
 int enB = 3;
+int led = 11;
 
 //	DADOS RECEBIDOS
 int pot_1 = -1;
@@ -64,10 +65,11 @@ void setup()
 	digitalWrite(enA,LOW);
 	digitalWrite(enB,LOW);
 	moduloRF.begin();
-	moduloRF.setPALevel(RF24_PA_MIN); /* Deixa o amplificador do rf24 na potência mínima */
-	moduloRF.setChannel(100);
-	moduloRF.startListening();
+
+	moduloRF.setChannel(120);
 	moduloRF.openReadingPipe(1, pipe);
+	moduloRF.startListening();
+	delay(100);
 }
 
 void loop()
@@ -89,9 +91,12 @@ void loop()
 		digitalWrite(in4, LOW);
 		analogWrite(enA, 0);
 		analogWrite(enB, 0);
+
+		if(digitalRead(led) == LOW)
+			digitalWrite(led, HIGH);
 	}
 	else {
-
+		digitalWrite(led, LOW);
 		// PARA TRÁS E ESQUERDA
 		if ((pot_1 >= tra_Val_Min) && (pot_1 <= tra_Val_Max) && (pot_2 >= esq_Val_Min) && (pot_2 <= esq_Val_Max))
 		{
